@@ -1,0 +1,196 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import Card from "@/components/ui/Card";
+import CardCategories from "@/components/ui/CardCategories";
+import Image from "next/image";
+import Link from "next/link";
+import { Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/app/_Context/languageContext";
+
+export default function Home() {
+  const { t } = useLanguage();
+
+  const cardData = [
+    {
+      icon: "📚",
+      title: t('home.features.quality.title'),
+      description: t('home.features.quality.desc')
+    },
+    {
+      icon: "🎓",
+      title: t('home.features.certified.title'),
+      description: t('home.features.certified.desc')
+    },
+    {
+      icon: "💳",
+      title: t('home.features.payments.title'),
+      description: t('home.features.payments.desc')
+    }
+  ];
+  const categoryData = [
+    {
+      image: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: t('home.categories.design.title'),
+      description: t('home.categories.design.desc')
+    },
+    {
+      image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: t('home.categories.technology.title'),
+      description: t('home.categories.technology.desc')
+    },
+    {
+      image: "https://images.pexels.com/photos/3184299/pexels-photo-3184299.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: t('home.categories.business.title'),
+      description: t('home.categories.business.desc')
+    }
+  ];
+
+
+
+  return (
+    <main className="relative min-h-screen bg-background pt-24 lg:pt-0 overflow-hidden">
+      {/* Background Decorative Glows */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10 animate-pulse" />
+      <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px] -z-10" />
+
+      {/* Hero Section */}
+      <section className="container mx-auto px-6 pt-20 pb-12 lg:pt-40 lg:pb-32">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:text-left text-center">
+          {/* Hero Content */}
+          <div className="flex-1 space-y-8 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-widest uppercase">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              New: Advanced AI Courses Out Now
+            </div>
+
+            <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter leading-[1.1]">
+              {t('home.hero.title').split(' ')[0]} <span className="bg-clip-text text-transparent bg-linear-to-r from-primary to-indigo-500">{t('home.hero.title').split(' ')[1]}</span> {t('home.hero.title').split(' ').slice(2).join(' ')}
+            </h1>
+
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0">
+              {t('home.hero.subtitle')}
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 justify-center lg:justify-start">
+              <Button
+                asChild
+                className="h-16 px-10 text-lg font-black rounded-2xl bg-linear-to-r from-primary to-indigo-600 hover:from-indigo-600 hover:to-primary text-white shadow-2xl shadow-primary/20 transition-all hover:scale-[1.03] active:scale-[0.98] group relative overflow-hidden border border-white/10"
+              >
+                <Link href="/courses">
+                  <span className="relative z-10 flex items-center gap-3">
+                    {t('home.hero.browse')}
+                    <Rocket className="w-5 h-5 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:rotate-12" />
+                  </span>
+                  <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="h-16 px-10 text-lg font-bold rounded-2xl border-2 border-neutral-200 dark:border-neutral-800 transition-all hover:bg-neutral-50 dark:hover:bg-neutral-900 active:scale-[0.98] group"
+              >
+                <Link href="/dashboard-student" className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-indigo-500 transition-transform group-hover:rotate-12" />
+                  {t('home.hero.mydashboard')}
+                </Link>
+              </Button>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex items-center gap-4 pt-8 justify-center lg:justify-start grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+              <div className="text-sm font-semibold text-muted-foreground">Trusted by teams at:</div>
+              <div className="flex gap-6 font-bold text-xl tracking-tighter italic">
+                <span>VOLT</span>
+                <span>ZEPHYR</span>
+                <span>APEX</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Hero Image / Illustration */}
+          <div className="flex-1 w-full max-w-2xl relative lg:-mt-24">
+            <div className="relative z-10 overflow-hidden rounded-[2.5rem] shadow-2xl border-4 border-white/5 transform lg:rotate-2 hover:rotate-0 transition-transform duration-700">
+              <Image
+                src="/images/programming-background-collage.jpg"
+                className="w-full object-cover aspect-[4/3] scale-105"
+                alt="Learning Platform Hero"
+                width={800}
+                height={600}
+                priority
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-background/40 to-transparent" />
+            </div>
+            {/* Decorative accents */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/20 rounded-full blur-3xl -z-0" />
+            <div className="absolute -top-10 -left-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-0" />
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="bg-secondary/30 py-24 border-y border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{t('home.features.title')}</h2>
+            <p className="text-muted-foreground text-lg">{t('home.features.subtitle')}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {cardData.map((card, index) => (
+              <Card
+                key={index}
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Categories */}
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <div className="max-w-2xl space-y-4">
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{t('home.categories.title')}</h2>
+              <p className="text-muted-foreground text-lg">{t('home.categories.subtitle')}</p>
+            </div>
+            <Button variant="link" className="text-primary font-bold text-lg group">
+              {t('home.categories.viewall')}
+              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {categoryData.map((category, index) => (
+              <CardCategories
+                key={index}
+                image={category.image}
+                title={category.title}
+                description={category.description}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Simple Footer/CTA */}
+      <section className="container mx-auto px-6 py-24">
+        <div className="rounded-[3rem] bg-linear-to-br from-primary to-indigo-600 p-12 md:p-24 text-center text-white relative overflow-hidden shadow-3xl shadow-primary/20">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
+          <div className="relative z-10 max-w-3xl mx-auto space-y-8">
+            <h2 className="text-4xl md:text-6xl font-black">{t('home.cta.title')}</h2>
+            <p className="text-xl text-white/80">{t('home.cta.subtitle')}</p>
+            <Button className="h-16 px-12 text-xl font-bold rounded-2xl bg-white text-primary hover:bg-neutral-100 transition-all shadow-2xl">
+              {t('home.cta.button')}
+            </Button>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
