@@ -212,15 +212,25 @@ export default function Home() {
       </section>
 
       {/* Simple Footer/CTA */}
-      <section className="container mx-auto px-6 py-24">
-        <div className="rounded-[3rem] bg-linear-to-br from-primary to-indigo-600 p-12 md:p-24 text-center text-white relative overflow-hidden shadow-3xl shadow-primary/20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
-          <div className="relative z-10 max-w-3xl mx-auto space-y-8">
-            <h2 className="text-4xl md:text-6xl font-black">{t('home.cta.title')}</h2>
-            <p className="text-xl text-white/80">{t('home.cta.subtitle')}</p>
-            <Button className="h-16 px-12 text-xl font-bold rounded-2xl bg-white text-primary hover:bg-neutral-100 transition-all shadow-2xl">
-              {t('home.cta.button')}
-            </Button>
+      <section className="container mx-auto px-4 md:px-6 py-20 md:py-32">
+        <div className="rounded-[2.5rem] md:rounded-[4rem] bg-linear-to-br from-primary to-indigo-700 p-10 md:p-24 text-center text-white relative overflow-hidden shadow-[0_30px_100px_-20px_rgba(79,70,229,0.4)]">
+          <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-white/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 md:w-96 h-64 md:h-96 bg-indigo-400/20 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl" />
+
+          <div className="relative z-10 max-w-4xl mx-auto space-y-8 md:space-y-12">
+            <h2 className="text-3xl sm:text-4xl md:text-7xl font-black leading-[1.1] tracking-tighter">
+              {t('home.cta.title')}
+            </h2>
+            <p className="text-base md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed">
+              {t('home.cta.subtitle')}
+            </p>
+            <div className="pt-4">
+              <Button asChild className="h-14 md:h-20 px-8 md:px-16 text-lg md:text-2xl font-black rounded-2xl md:rounded-[1.5rem] bg-white text-primary hover:bg-neutral-50 transition-all hover:scale-105 active:scale-95 shadow-2xl">
+                <Link href="/register">
+                  {t('home.cta.button')}
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

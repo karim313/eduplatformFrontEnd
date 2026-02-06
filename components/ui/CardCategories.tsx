@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { useLanguage } from '@/app/_Context/languageContext'
 import { ArrowRight, Code, Palette, BarChart3, Binary, Brain, HeartPulse } from 'lucide-react'
@@ -42,8 +43,8 @@ export default function CardCategories({ image, title, description, iconType = '
             <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
 
             {/* Content Container */}
-            <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10">
-                <div className="relative z-10 transition-transform duration-700 group-hover:translate-y-[-10px]">
+            <Link href="/courses" className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10 z-10">
+                <div className="relative transition-transform duration-700 group-hover:translate-y-[-10px]">
                     {/* Floating Icon Badge */}
                     <div className="mb-6 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white scale-90 group-hover:scale-100 group-hover:bg-primary group-hover:border-primary transition-all duration-500 shadow-xl">
                         <Icon className="w-7 h-7" />
@@ -65,7 +66,7 @@ export default function CardCategories({ image, title, description, iconType = '
                         </span>
                     </div>
                 </div>
-            </div>
+            </Link>
 
             {/* Subtle Inner Glow */}
             <div className="absolute inset-0 rounded-[2rem] border border-white/5 pointer-events-none" />
