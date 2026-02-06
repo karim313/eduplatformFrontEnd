@@ -137,44 +137,44 @@ export default function CourseDetail() {
             <div className="bg-neutral-900 text-white pt-12 pb-20 px-6">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2">
-                        <div className="flex items-center gap-2 text-xs text-neutral-400 mb-6 font-black uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-neutral-400 mb-4 md:mb-6 font-black uppercase tracking-widest">
                             <Link href="/courses" className="hover:text-white transition-colors">Courses</Link>
                             <span>/</span>
                             <span className="text-indigo-400">{course.category || 'Technology'}</span>
                         </div>
 
-                        <h1 className="text-3xl md:text-5xl font-black mb-6 leading-tight tracking-tight">
+                        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black mb-4 md:mb-6 leading-tight tracking-tight">
                             {course.title}
                         </h1>
-                        <p className="text-lg text-neutral-300 mb-8 max-w-3xl leading-relaxed">
+                        <p className="text-sm sm:text-base md:text-lg text-neutral-300 mb-6 md:mb-8 max-w-3xl leading-relaxed">
                             {course.description || `Master the skills of ${course.title} with this comprehensive course.`}
                         </p>
 
-                        <div className="flex flex-wrap items-center gap-6 mb-8">
+                        <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-6 md:mb-8">
                             <div className="flex items-center gap-2">
                                 <div className="flex items-center text-yellow-500 bg-yellow-400/10 px-2 py-1 rounded-lg">
-                                    <Star className="w-5 h-5 fill-yellow-500" />
-                                    <span className="ml-1.5 font-black">{course.rating || 4.5}</span>
+                                    <Star className="w-4 h-4 md:w-5 md:h-5 fill-yellow-500" />
+                                    <span className="ml-1.5 font-black text-sm md:text-base">{course.rating || 4.5}</span>
                                 </div>
-                                <span className="text-neutral-400 font-bold underline decoration-neutral-700">({(course.reviews || 0).toLocaleString()} reviews)</span>
+                                <span className="text-neutral-400 text-xs md:text-sm font-bold underline decoration-neutral-700">({(course.reviews || 0).toLocaleString()} reviews)</span>
                             </div>
-                            <div className="flex items-center gap-2 text-neutral-300">
-                                <Users className="w-5 h-5" />
+                            <div className="flex items-center gap-2 text-neutral-300 text-xs md:text-sm">
+                                <Users className="w-4 h-4 md:w-5 md:h-5" />
                                 <span className="font-bold">Enrolled Students</span>
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-8 text-xs text-neutral-400 font-black uppercase tracking-wider">
+                        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-[10px] md:text-xs text-neutral-400 font-black uppercase tracking-wider">
                             <div className="flex items-center gap-2">
-                                <Calendar className="w-4 h-4 text-neutral-500" />
+                                <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-neutral-500" />
                                 <span>Created {new Date(course.createdAt).toLocaleDateString()}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Globe className="w-4 h-4 text-neutral-500" />
+                                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 text-neutral-500" />
                                 <span>English</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Award className="w-4 h-4 text-indigo-400" />
+                                <Award className="w-3.5 h-3.5 md:w-4 md:h-4 text-indigo-400" />
                                 <span className="text-indigo-400">Professional Certificate</span>
                             </div>
                         </div>
@@ -211,12 +211,12 @@ export default function CourseDetail() {
                         </div>
 
                         {/* Navigation Tabs */}
-                        <div className="border-b border-neutral-200 sticky top-20 bg-neutral-50/95 backdrop-blur-md z-30 flex gap-8">
+                        <div className="border-b border-neutral-200 sticky top-[72px] lg:top-20 bg-neutral-50/95 backdrop-blur-md z-30 flex gap-4 md:gap-8 overflow-x-auto no-scrollbar">
                             {['Curriculum', 'About', 'Instructor'].map((tab) => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab.toLowerCase())}
-                                    className={`py-6 text-xs font-black uppercase tracking-widest transition-all relative ${activeTab === tab.toLowerCase()
+                                    className={`py-4 md:py-6 text-[10px] md:text-xs font-black uppercase tracking-widest transition-all relative whitespace-nowrap ${activeTab === tab.toLowerCase()
                                         ? 'text-neutral-900 border-b-4 border-indigo-600'
                                         : 'text-neutral-400 hover:text-neutral-600'
                                         }`}
@@ -251,17 +251,19 @@ export default function CourseDetail() {
                                         </div>
 
                                         {expandedSections.includes(playlist._id) && (
-                                            <div className="divide-y divide-neutral-100 px-4">
+                                            <div className="divide-y divide-neutral-100 px-2 md:px-4">
                                                 {playlist.videos.map((video, vIdx) => (
-                                                    <div key={video._id} className="px-6 py-4 flex items-center justify-between group hover:bg-neutral-50 transition-colors cursor-pointer">
-                                                        <div className="flex items-center gap-4">
-                                                            <PlayCircle className="w-4 h-4 text-indigo-600" />
-                                                            <span className="text-sm font-bold text-neutral-800">
+                                                    <div key={video._id} className="px-4 md:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-neutral-50 transition-colors cursor-pointer gap-2">
+                                                        <div className="flex items-center gap-4 min-w-0">
+                                                            <div className="shrink-0">
+                                                                <PlayCircle className="w-4 h-4 text-indigo-600" />
+                                                            </div>
+                                                            <span className="text-sm font-bold text-neutral-800 leading-tight">
                                                                 {vIdx + 1}. {video.title}
                                                             </span>
                                                         </div>
-                                                        <div className="flex items-center gap-3">
-                                                            <span className="text-xs text-neutral-400 font-bold">
+                                                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:pl-0 pl-8">
+                                                            <span className="text-[10px] md:text-xs text-neutral-400 font-bold uppercase tracking-wider">
                                                                 {Math.floor(video.duration / 60)}:{(video.duration % 60).toString().padStart(2, '0')}
                                                             </span>
                                                             <Play className="w-3 h-3 text-neutral-300 group-hover:text-indigo-600 transition-colors" />
@@ -346,8 +348,8 @@ export default function CourseDetail() {
                     </div>
 
                     {/* Sticky Sidebar */}
-                    <div className="lg:col-span-1 order-1 lg:order-2">
-                        <div className="sticky top-28 bg-white rounded-[2.5rem] shadow-2xl shadow-neutral-200/50 border border-neutral-200 overflow-hidden group">
+                    <div className="lg:col-span-1 order-1 lg:order-2 mb-8 lg:mb-0">
+                        <div className="lg:sticky lg:top-28 bg-white rounded-[2.5rem] shadow-2xl shadow-neutral-200/50 border border-neutral-200 overflow-hidden group">
                             {/* Preview Image */}
                             <div className="relative aspect-video overflow-hidden">
                                 <Image

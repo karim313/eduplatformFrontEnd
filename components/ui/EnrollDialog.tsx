@@ -38,6 +38,8 @@ export default function EnrollDialog({ courseId, courseTitle, price, isOpen, onC
             if (result.success || result.message?.toLowerCase().includes('success')) {
                 toast.success('Your transaction is being verified.');
                 onClose();
+                // Redirect to player page
+                router.push(`/courses/${courseId}/player`);
             } else if (
                 result.message?.toLowerCase().includes('already enrolled') ||
                 result.message?.includes('duplicate key') ||

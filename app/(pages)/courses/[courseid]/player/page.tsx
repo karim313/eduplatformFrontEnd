@@ -103,9 +103,9 @@ export default function CoursePlayer() {
     if (!course || !activeVideo) return null;
 
     return (
-        <div className="bg-neutral-950 text-white flex flex-col lg:flex-row h-[calc(100vh-73px)] overflow-hidden">
+        <div className="bg-neutral-950 text-white flex flex-col lg:flex-row lg:h-[calc(100vh-73px)] lg:overflow-hidden">
             {/* Main Video Area */}
-            <div className="flex-1 flex flex-col h-full overflow-y-auto">
+            <div className="flex-1 flex flex-col h-full lg:overflow-y-auto">
                 {/* Player Header */}
                 <div className="p-4 bg-neutral-900/50 backdrop-blur-md border-b border-neutral-800 flex items-center justify-between">
                     <Link href="/courses" className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors">
@@ -160,7 +160,7 @@ export default function CoursePlayer() {
             </div>
 
             {/* Sidebar Playlist */}
-            <div className="w-full lg:w-[400px] border-l border-neutral-800 bg-neutral-900 flex flex-col h-full">
+            <div className="w-full lg:w-[400px] border-t lg:border-t-0 lg:border-l border-neutral-800 bg-neutral-900 flex flex-col lg:h-full lg:overflow-hidden">
                 <div className="p-6 border-b border-neutral-800 bg-neutral-900/50">
                     <h2 className="text-lg font-black flex items-center gap-3">
                         <Layout className="w-5 h-5 text-indigo-500" />
@@ -198,11 +198,11 @@ export default function CoursePlayer() {
                                             <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${activeVideo.id === video._id ? 'bg-primary text-white' : 'bg-neutral-800 text-neutral-500 group-hover:bg-neutral-700'}`}>
                                                 {activeVideo.id === video._id ? <Play className="w-3.5 h-3.5 fill-current" /> : <PlayCircle className="w-4 h-4" />}
                                             </div>
-                                            <div className="flex flex-col items-start min-w-0">
-                                                <span className={`text-sm font-bold truncate w-full ${activeVideo.id === video._id ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-200'}`}>
+                                            <div className="flex flex-col items-start min-w-0 flex-1">
+                                                <span className={`text-sm font-bold block w-full leading-tight ${activeVideo.id === video._id ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-200'}`}>
                                                     {video.title}
                                                 </span>
-                                                <span className="text-[10px] font-black uppercase text-neutral-600 tracking-wider">
+                                                <span className="text-[10px] font-black uppercase text-neutral-600 tracking-wider mt-1">
                                                     {Math.floor(video.duration / 60)}:{(video.duration % 60).toString().padStart(2, '0')}
                                                 </span>
                                             </div>

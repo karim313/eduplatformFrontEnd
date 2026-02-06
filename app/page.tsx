@@ -28,21 +28,42 @@ export default function Home() {
       description: t('home.features.payments.desc')
     }
   ];
-  const categoryData = [
-    {
-      image: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
-      title: t('home.categories.design.title'),
-      description: t('home.categories.design.desc')
-    },
+  const categoryData: { image: string, title: string, description: string, iconType: 'design' | 'tech' | 'business' | 'dev' | 'personal' | 'health' }[] = [
     {
       image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800",
       title: t('home.categories.technology.title'),
-      description: t('home.categories.technology.desc')
+      description: t('home.categories.technology.desc'),
+      iconType: 'tech'
+    },
+    {
+      image: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: t('home.categories.design.title'),
+      description: t('home.categories.design.desc'),
+      iconType: 'design'
+    },
+    {
+      image: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: "Development",
+      description: "Full-stack, mobile, and backend development courses from scratch.",
+      iconType: 'dev'
     },
     {
       image: "https://images.pexels.com/photos/3184299/pexels-photo-3184299.jpeg?auto=compress&cs=tinysrgb&w=800",
       title: t('home.categories.business.title'),
-      description: t('home.categories.business.desc')
+      description: t('home.categories.business.desc'),
+      iconType: 'business'
+    },
+    {
+      image: "https://images.pexels.com/photos/3756042/pexels-photo-3756042.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: "Marketing",
+      description: "Digital marketing, social media, and brand growth strategies.",
+      iconType: 'dev'
+    },
+    {
+      image: "https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=800",
+      title: "Self Growth",
+      description: "Improve your productivity, mindset, and personal skills.",
+      iconType: 'personal'
     }
   ];
 
@@ -152,25 +173,38 @@ export default function Home() {
       </section>
 
       {/* Featured Categories */}
-      <section className="py-24">
+      <section className="py-32 relative overflow-hidden bg-neutral-50/50">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-from)_0%,transparent_70%)] from-primary/5 to-transparent -z-10" />
+
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div className="max-w-2xl space-y-4">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{t('home.categories.title')}</h2>
-              <p className="text-muted-foreground text-lg">{t('home.categories.subtitle')}</p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+            <div className="max-w-3xl space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-neutral-200 shadow-sm text-primary text-[10px] font-black uppercase tracking-[0.2em]">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                Explore by Field
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-neutral-900">
+                Browse our <span className="text-primary italic">Expert</span> Categories
+              </h2>
+              <p className="text-neutral-500 text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
+                {t('home.categories.subtitle')}
+              </p>
             </div>
-            <Button variant="link" className="text-primary font-bold text-lg group">
-              {t('home.categories.viewall')}
-              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            <Button asChild variant="ghost" className="h-14 px-8 rounded-2xl bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-900 font-black text-sm uppercase tracking-widest gap-3 shadow-xl shadow-neutral-200/50 group">
+              <Link href="/courses">
+                {t('home.categories.viewall')}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {categoryData.map((category, index) => (
               <CardCategories
                 key={index}
                 image={category.image}
                 title={category.title}
                 description={category.description}
+                iconType={category.iconType}
               />
             ))}
           </div>

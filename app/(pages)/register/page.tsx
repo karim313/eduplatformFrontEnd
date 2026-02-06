@@ -61,9 +61,7 @@ export default function Register() {
             if (result.success) {
                 toast.success("Account created successfully!");
                 console.log(result);
-
-                // router.push('/signin');
-
+                router.push('/signin');
             } else {
                 toast.error(result.message || "Registration failed. Please try again.");
             }
