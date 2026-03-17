@@ -1,6 +1,6 @@
 // Export separate functions for each payment method
 export async function enrollVodafone(courseid: string, token: string, transactionId?: string) {
-    const response = await fetch('https://educational-platform-api2-production.up.railway.app/api/enrollments/purchase/' + courseid, {
+    const response = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/enrollments/purchase/' + courseid, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,

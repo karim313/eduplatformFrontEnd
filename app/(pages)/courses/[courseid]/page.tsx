@@ -53,7 +53,7 @@ export default function CourseDetail() {
     }
     async function getSpecificCourse() {
         try {
-            const response = await fetch('https://educational-platform-api2-production.up.railway.app/api/courses/' + courseid, {
+            const response = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/courses/' + courseid, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -71,7 +71,7 @@ export default function CourseDetail() {
         if (!token || !courseid) return;
         setIsCheckingEnrollment(true);
         try {
-            const response = await fetch('https://educational-platform-api2-production.up.railway.app/api/enrollments/my-courses', {
+            const response = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/enrollments/my-courses', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },

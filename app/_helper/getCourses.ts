@@ -10,7 +10,7 @@ export async function getCourses(token: string | null) {
             headers["Authorization"] = `Bearer ${token}`;
         }
 
-        const response = await fetch("https://educational-platform-api2-production.up.railway.app/api/courses", {
+        const response = await fetch("https://educational-platform-api2-production-2097.up.railway.app/api/courses", {
             headers
         })
 

@@ -23,7 +23,7 @@ export default function StudentDashboard() {
             setIsLoading(true);
             try {
                 // 1. Fetch user profile
-                const userResponse = await fetch('https://educational-platform-api2-production.up.railway.app/api/auth/me', {
+                const userResponse = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/auth/me', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -41,7 +41,7 @@ export default function StudentDashboard() {
                 console.log("All courses fetched:", allCourses.length);
 
                 // 2. Fetch enrolled courses
-                const response = await fetch('https://educational-platform-api2-production.up.railway.app/api/enrollments/my-courses', {
+                const response = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/enrollments/my-courses', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

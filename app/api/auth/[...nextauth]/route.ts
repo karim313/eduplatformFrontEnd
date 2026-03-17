@@ -11,7 +11,7 @@ const handler = NextAuth({
                 password: {}
             },
             async authorize(credentials) {
-                const response = await fetch("https://educational-platform-api2-production.up.railway.app/api/auth/login", {
+                const response = await fetch("https://educational-platform-api2-production-2097.up.railway.app/api/auth/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

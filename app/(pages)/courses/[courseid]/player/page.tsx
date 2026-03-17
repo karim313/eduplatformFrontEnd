@@ -38,7 +38,7 @@ export default function CoursePlayer() {
             try {
                 // First check enrollment or just fetch course 
                 // (Server should ideally handle authorization)
-                const response = await fetch(`https://educational-platform-api2-production.up.railway.app/api/courses/${courseid}`, {
+                const response = await fetch(`https://educational-platform-api2-production-2097.up.railway.app/api/courses/${courseid}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const result = await response.json();

@@ -24,7 +24,7 @@ function PaymentSuccessContent() {
             }
 
             try {
-                const response = await fetch(`https://educational-platform-api2-production.up.railway.app/api/enrollments/stripe-success?session_id=${sessionId}`, {
+                const response = await fetch(`https://educational-platform-api2-production-2097.up.railway.app/api/enrollments/stripe-success?session_id=${sessionId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

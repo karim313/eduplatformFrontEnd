@@ -41,7 +41,7 @@ export default function Courses() {
 
             // Fetch enrolled courses if token exists
             if (token) {
-                const response = await fetch('https://educational-platform-api2-production.up.railway.app/api/enrollments/my-courses', {
+                const response = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/enrollments/my-courses', {
                     method: 'GET',
                     cache: 'no-store', // Ensure we don't get a cached response
                     headers: {
