@@ -1,55 +1,54 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 const REVEAL_SELECTOR =
-  "main > *, main section, main article, main [data-reveal], main .card, main .feature-card";
+  "main section, main .card, main .feature-card";
 
 export default function SiteEffects() {
   const pathname = usePathname();
   const [showTopButton, setShowTopButton] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const updateScroll = () => {
-      const top = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = total > 0 ? Math.min(top / total, 1) : 0;
-      setScrollProgress(progress);
-      setShowTopButton(top > 360);
+    const handleScroll = () => {
+      setShowTopButton(window.scrollY > 360);
     };
 
-    updateScroll();
-    window.addEventListener("scroll", updateScroll, { passive: true });
-    return () => window.removeEventListener("scroll", updateScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    document.body.classList.remove("page-enter");
-    requestAnimationFrame(() => document.body.classList.add("page-enter"));
+    // Simple page transition without heavy DOM queries
+    document.body.classList.add("page-enter");
+    
+    // Only run reveal animations in production or when not in development
+    if (process.env.NODE_ENV === 'production') {
+      const targets = document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
+      
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
 
-    const targets = Array.from(document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR)).filter(
-      (el) => !el.classList.contains("reveal-ignore")
-    );
-    targets.forEach((el) => el.classList.add("reveal-item"));
+      targets.forEach((el) => observer.observe(el));
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("reveal-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.14 }
-    );
-
-    targets.forEach((el) => observer.observe(el));
-
+      return () => {
+        observer.disconnect();
+        document.body.classList.remove("page-enter");
+      };
+    }
+    
     return () => {
-      observer.disconnect();
       document.body.classList.remove("page-enter");
     };
   }, [pathname]);
