@@ -287,24 +287,6 @@ export default function Register() {
                         </Form>
                     </div>
 
-                    {/* Social Login Divider */}
-                    <div className="flex items-center my-10 px-4">
-                        <div className="grow h-px bg-border"></div>
-                        <span className="px-4 text-[10px] text-muted-foreground font-black uppercase tracking-widest bg-background/50 py-1 rounded-full">Or sign up with</span>
-                        <div className="grow h-px bg-border"></div>
-                    </div>
-
-                    {/* Social Register Options */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <Button variant="outline" className="h-14 rounded-xl font-bold bg-background border-border hover:shadow-md transition-all">
-                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
-                            <span>Google</span>
-                        </Button>
-                        <Button variant="outline" className="h-14 rounded-xl font-bold bg-background border-border hover:shadow-md transition-all">
-                            <Github className="w-5 h-5" />
-                            <span>GitHub</span>
-                        </Button>
-                    </div>
 
                     {/* Footer Link */}
                     <div className="mt-12 text-center">

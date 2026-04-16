@@ -5,6 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import { useLanguage } from '@/app/_Context/languageContext'
 import { ArrowRight, Code, Palette, BarChart3, Binary, Brain, HeartPulse } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface CardCategoriesProps {
     image: string;
@@ -23,8 +24,16 @@ const IconMap = {
 };
 
 export default function CardCategories({ image, title, description, iconType = 'dev' }: CardCategoriesProps) {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const Icon = IconMap[iconType] || Code;
+
+    const handleCardClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        toast.success(language === 'ar' ? `!Exploring ${title}` : `Exploring ${title}!`);
+        setTimeout(() => {
+            window.location.href = '/courses';
+        }, 300);
+    };
 
     return (
         <div className="feature-card group relative h-96 w-full overflow-hidden rounded-[2rem] border border-white/10 bg-neutral-900 transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_-12px_rgba(79,70,229,0.3)] cursor-pointer">
@@ -45,7 +54,7 @@ export default function CardCategories({ image, title, description, iconType = '
             <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
 
             {/* Content Container */}
-            <Link href="/courses" className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10 z-10">
+            <div onClick={handleCardClick} className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10 z-10 cursor-pointer">
                 <div className="relative transition-transform duration-700 group-hover:translate-y-[-10px]">
                     {/* Floating Icon Badge */}
                     <div className="mb-6 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white scale-90 group-hover:scale-100 group-hover:bg-primary group-hover:border-primary transition-all duration-500 shadow-xl">
@@ -68,7 +77,7 @@ export default function CardCategories({ image, title, description, iconType = '
                         </span>
                     </div>
                 </div>
-            </Link>
+            </div>
 
             {/* Subtle Inner Glow */}
             <div className="absolute inset-0 rounded-[2rem] border border-white/5 pointer-events-none" />

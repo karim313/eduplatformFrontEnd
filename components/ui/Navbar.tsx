@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { toast } from "sonner";
 
 // Throttle utility function
 const throttle = (func: (...args: any[]) => void, limit: number) => {
@@ -42,6 +43,7 @@ export default function Navbar() {
     const isAuthenticated = !!session?.user;
 
     const handleLogout = async () => {
+        toast.success(language === 'ar' ? 'Logged out successfully!' : 'Logged out successfully!');
         await signOut({ callbackUrl: "/" });
     };
 

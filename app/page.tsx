@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Sparkles, Rocket, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/app/_Context/languageContext";
 import { useCallback, useEffect, useMemo, useState, lazy, Suspense } from "react";
+import { toast } from "sonner";
 
 const CinematicIntro = lazy(() => import("@/components/CinematicIntro"));
 
@@ -163,18 +164,33 @@ const categoryData: {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-              <Button asChild size="lg" className="text-base px-10 py-7 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 rounded-2xl font-semibold">
-                <Link href="/courses">
-                  {t("home.hero.browse")}
-                  <Rocket className="ml-3 w-6 h-6" />
-                </Link>
+              <Button 
+                size="lg" 
+                className="text-base px-10 py-7 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 rounded-2xl font-semibold"
+                onClick={() => {
+                  toast.success(language === 'ar' ? '!Welcome to courses' : 'Welcome to courses!');
+                  setTimeout(() => {
+                    window.location.href = '/courses';
+                  }, 300);
+                }}
+              >
+                {t("home.hero.browse")}
+                <Rocket className="ml-3 w-6 h-6" />
               </Button>
 
-              <Button asChild variant="outline" size="lg" className="text-base px-10 py-7 border-2 border-primary/20 hover:border-primary hover:bg-primary/10 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 rounded-2xl font-semibold">
-                <Link href="/dashboard-student">
-                  <Sparkles className="mr-3 w-6 h-6" />
-                  {t("home.hero.mydashboard")}
-                </Link>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-base px-10 py-7 border-2 border-primary/20 hover:border-primary hover:bg-primary/10 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 rounded-2xl font-semibold"
+                onClick={() => {
+                  toast.success(language === 'ar' ? '!Welcome to dashboard' : 'Welcome to dashboard!');
+                  setTimeout(() => {
+                    window.location.href = '/dashboard-student';
+                  }, 300);
+                }}
+              >
+                <Sparkles className="mr-3 w-6 h-6" />
+                {t("home.hero.mydashboard")}
               </Button>
             </div>
 

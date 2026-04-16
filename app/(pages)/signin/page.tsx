@@ -170,9 +170,6 @@ function SigninContent() {
                                             <FormLabel className="text-neutral-900 dark:text-neutral-200 text-sm font-bold pl-1">
                                                 Password
                                             </FormLabel>
-                                            <Link href="#" className="text-primary text-[11px] font-black hover:underline uppercase tracking-wider">
-                                                Forgot?
-                                            </Link>
                                         </div>
                                         <FormControl>
                                             <div className="relative group">
@@ -244,24 +241,6 @@ function SigninContent() {
                     </Form>
                 </div>
 
-                {/* Social Login Divider */}
-                <div className="flex items-center my-10 px-4">
-                    <div className="grow h-px bg-border"></div>
-                    <span className="px-4 text-[10px] text-muted-foreground font-black uppercase tracking-widest bg-background/50 py-1 rounded-full">Or continue with</span>
-                    <div className="grow h-px bg-border"></div>
-                </div>
-
-                {/* Social Login Options */}
-                <div className="grid grid-cols-2 gap-4">
-                    <Button variant="outline" className="h-14 rounded-xl font-bold bg-background border-border hover:shadow-md transition-all">
-                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
-                        <span>Google</span>
-                    </Button>
-                    <Button variant="outline" className="h-14 rounded-xl font-bold bg-background border-border hover:shadow-md transition-all">
-                        <Github className="w-5 h-5" />
-                        <span>GitHub</span>
-                    </Button>
-                </div>
 
                 {/* Footer Link */}
                 <div className="mt-12 text-center">
