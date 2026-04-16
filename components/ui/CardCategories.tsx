@@ -27,12 +27,14 @@ export default function CardCategories({ image, title, description, iconType = '
     const Icon = IconMap[iconType] || Code;
 
     return (
-        <div className="group relative h-96 w-full overflow-hidden rounded-[2rem] border border-white/10 bg-neutral-900 transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_-12px_rgba(79,70,229,0.3)] cursor-pointer">
+        <div className="feature-card group relative h-96 w-full overflow-hidden rounded-[2rem] border border-white/10 bg-neutral-900 transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_-12px_rgba(79,70,229,0.3)] cursor-pointer">
             {/* Background Image with optimized loading and hover effect */}
             <Image
                 src={image}
                 alt={title}
                 fill
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover transition-all duration-1000 group-hover:scale-110 opacity-50 group-hover:opacity-60 group-hover:brightness-110"
             />
 
@@ -50,7 +52,7 @@ export default function CardCategories({ image, title, description, iconType = '
                         <Icon className="w-7 h-7" />
                     </div>
 
-                    <h3 className="text-3xl font-black tracking-tighter text-white mb-3 group-hover:text-primary-foreground transition-colors duration-500">
+                    <h3 className="text-3xl font-black tracking-tighter text-white mb-3 group-hover:text-primary-foreground transition-colors duration-500 drop-shadow-sm">
                         {title}
                     </h3>
 

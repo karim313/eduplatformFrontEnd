@@ -1,23 +1,43 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/app/_Context/languageContext";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+
+// Throttle utility function
+const throttle = (func: (...args: any[]) => void, limit: number) => {
+    let inThrottle: boolean;
+    return function (this: any, ...args: any[]) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => (inThrottle = false), limit);
+        }
+    };
+};
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { data: session } = useSession();
-    const router = useRouter();
     const pathname = usePathname();
     const { language, setLanguage, t } = useLanguage();
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    const throttledScroll = useRef(throttle(() => {
+        setScrolled(window.scrollY > 20);
+    }, 150)).current;
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const isPlayerPage = pathname?.includes('/player');
-    console.log(session);
-
     // Derived state for authentication to replace 'token' usage
     const isAuthenticated = !!session?.user;
 
@@ -25,20 +45,18 @@ export default function Navbar() {
         await signOut({ callbackUrl: "/" });
     };
 
-    // Handle scroll effect for glassmorphism
+    // Handle scroll effect for glassmorphism with throttle
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+        window.addEventListener("scroll", throttledScroll);
+        return () => window.removeEventListener("scroll", throttledScroll);
+    }, [throttledScroll]);
 
     return (
         <nav
-            className={`${isPlayerPage ? "static bg-white" : "fixed top-0"} z-50 w-full transition-all duration-300 border-b ${scrolled || isPlayerPage
-                ? "bg-white/80 backdrop-blur-xl border-neutral-200 py-3"
-                : "bg-transparent border-transparent py-5"
+            data-main-navbar="true"
+            className={`${isPlayerPage ? "static bg-background" : "fixed top-0"} z-50 w-full transition-all duration-300 border-b ${scrolled || isPlayerPage
+                ? "bg-background/80 backdrop-blur-xl border-border py-3 shadow-sm shadow-black/5"
+                : "bg-background/40 backdrop-blur-md border-transparent py-5"
                 }`}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
@@ -47,7 +65,7 @@ export default function Navbar() {
                     <div className="w-10 h-10 bg-linear-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                         <span className="text-white font-bold text-xl">E</span>
                     </div>
-                    <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-600 to-gray-500 group-hover:to-black transition-all">
+                    <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-600 to-gray-500 dark:from-gray-300 dark:to-gray-100 group-hover:to-foreground transition-all">
                         EduPlatform
                     </span>
                 </Link>
@@ -63,14 +81,26 @@ export default function Navbar() {
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-1">
-                    <NavLink href="/" label={t('nav.home')} icon={<HomeIcon />} />
-                    <NavLink href="/courses" label={t('nav.courses')} icon={<CoursesIcon />} />
-                    <NavLink href="/contact" label={t('nav.contact')} icon={<ContactIcon />} />
+                    <NavLink href="/" label={t('nav.home')} icon={<HomeIcon />} active={pathname === "/"} />
+                    <NavLink href="/courses" label={t('nav.courses')} icon={<CoursesIcon />} active={pathname?.startsWith("/courses")} />
+                    <NavLink href="/contact" label={t('nav.contact')} icon={<ContactIcon />} active={pathname?.startsWith("/contact")} />
+
+                    {/* Theme Toggle */}
+                    <button
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                        className="flex items-center justify-center p-2 rounded-full text-neutral-400 hover:text-black hover:bg-black/5 transition-all group ml-1"
+                        aria-label="Toggle Theme"
+                    >
+                        {mounted && (
+                            theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />
+                        )}
+                        {!mounted && <div className="w-4 h-4" />}
+                    </button>
 
                     {/* Language Switcher */}
                     <button
                         onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full text-neutral-400 hover:text-black hover:bg-black/5 transition-all group ml-2"
+                        className="flex items-center gap-2 px-4 py-2 rounded-full text-neutral-400 hover:text-foreground hover:bg-foreground/5 transition-all group ml-1"
                     >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
@@ -83,7 +113,7 @@ export default function Navbar() {
                         <div className="flex items-center gap-4 ml-4 pl-4 border-l border-neutral-800">
                             <Link
                                 href="/signin"
-                                className="text-sm font-medium text-neutral-400 hover:text-black transition-colors"
+                                className="text-sm font-medium text-neutral-400 hover:text-foreground transition-colors"
                             >
                                 {t('nav.signin')}
                             </Link>
@@ -96,30 +126,43 @@ export default function Navbar() {
                         </div>
                     ) : (
                         /* Profile/Dashboard Dropdown */
-                        <div className="relative ml-4 pl-4 border-l border-neutral-200">
+                        <div 
+                            className={`relative ml-4 pl-4 border-l ${language === 'ar' ? 'border-r pr-4 pl-0' : 'border-l pl-4'} border-neutral-200`}
+                            onMouseEnter={() => setDropdownOpen(true)}
+                            onMouseLeave={() => setDropdownOpen(false)}
+                        >
                             <button
-                                onMouseEnter={() => setDropdownOpen(true)}
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                                className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/5 hover:bg-black/10 text-neutral-400 hover:text-black transition-colors border border-neutral-200"
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 text-primary hover:text-primary/90 transition-all duration-300 border border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-md ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}
                             >
-                                <div className="w-6 h-6 rounded-full bg-linear-to-tr from-indigo-400 to-cyan-400" />
-                                <span className="text-sm font-medium">{t('nav.dashboard')}</span>
-                                <svg className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-primary/60 shadow-lg shadow-primary/30 flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">
+                                        {session?.user?.name?.split(' ')[0]?.[0]?.toUpperCase() || session?.user?.email?.[0]?.toUpperCase() || 'U'}
+                                    </span>
+                                </div>
+                                <div className="flex flex-col items-start">
+                                    <span className="text-sm font-semibold">
+                                        {language === 'ar' ? 'أهلاً' : 'Hello'}
+                                    </span>
+                                    <span className="text-xs font-medium text-primary/70">
+                                        {session?.user?.name?.split(' ')[0] || session?.user?.email?.split('@')[0] || 'User'}
+                                    </span>
+                                </div>
+                                <svg className={`w-4 h-4 transition-transform duration-200 text-primary/60 ${dropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
 
                             {dropdownOpen && (
                                 <div
-                                    onMouseLeave={() => setDropdownOpen(false)}
-                                    className="absolute right-0 top-full mt-2 w-56 bg-white/90 backdrop-blur-2xl border border-neutral-200 rounded-2xl shadow-2xl overflow-hidden p-1"
+                                    className={`absolute ${language === 'ar' ? 'left-0' : 'right-0'} top-full mt-2 w-56 bg-background/90 backdrop-blur-2xl border border-border rounded-2xl shadow-2xl overflow-hidden p-1 z-50`}
                                 >
                                     <DropdownItem href="/dashboard-student" label={t('nav.overview')} icon={<OverviewIcon />} />
                                     <DropdownItem href="/dashboard-student/settings" label={t('nav.settings')} icon={<SettingsIcon />} />
-                                    <div className="h-px bg-neutral-100 my-1 mx-2" />
+                                    <div className="h-px bg-border my-1 mx-2" />
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 transition-colors text-sm"
+                                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-500/10 transition-colors text-sm"
                                     >
                                         <LogoutIcon />
                                         {t('nav.signout')}
@@ -132,10 +175,33 @@ export default function Navbar() {
             </div>
 
             <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}>
-                <ul className="flex flex-col gap-2 p-6 bg-white border-t border-neutral-200 mt-4">
+                <ul className="flex flex-col gap-2 p-6 bg-background border-t border-border mt-4">
                     <li><MobileNavLink href="/" label={t('nav.home')} onClick={() => setMenuOpen(false)} /></li>
                     <li><MobileNavLink href="/courses" label={t('nav.courses')} onClick={() => setMenuOpen(false)} /></li>
                     <li><MobileNavLink href="/contact" label={t('nav.contact')} onClick={() => setMenuOpen(false)} /></li>
+
+                    {/* Theme Switcher Mobile */}
+                    <li>
+                        <button
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-foreground/5 transition-colors text-sm font-medium"
+                        >
+                            {mounted && (
+                                theme === 'dark' ? (
+                                    <>
+                                        <Sun className="w-5 h-5" />
+                                        <span>Light Mode</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Moon className="w-5 h-5" />
+                                        <span>Dark Mode</span>
+                                    </>
+                                )
+                            )}
+                            {!mounted && <div className="w-5 h-5" />}
+                        </button>
+                    </li>
 
                     {/* Language Switcher Mobile */}
                     <li>
@@ -143,7 +209,7 @@ export default function Navbar() {
                             onClick={() => {
                                 setLanguage(language === 'en' ? 'ar' : 'en');
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-700 hover:bg-neutral-50 transition-colors text-sm font-medium"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-foreground/5 transition-colors text-sm font-medium"
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
@@ -191,11 +257,14 @@ export default function Navbar() {
     );
 }
 
-function NavLink({ href, label, icon }: { href: string; label: string; icon: React.ReactNode }) {
+function NavLink({ href, label, icon, active = false }: { href: string; label: string; icon: React.ReactNode; active?: boolean }) {
     return (
         <Link
             href={href}
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-neutral-400 hover:text-black hover:bg-black/5 transition-all group"
+            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all group ${active
+                ? "text-foreground bg-foreground/10"
+                : "text-neutral-400 hover:text-foreground hover:bg-foreground/5"
+                }`}
         >
             <span className="opacity-0 group-hover:opacity-100 transition-opacity translate-y-1 group-hover:translate-y-0 duration-200">
                 {icon}
@@ -209,7 +278,7 @@ function DropdownItem({ href, label, icon, className = "" }: { href: string; lab
     return (
         <Link
             href={href}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl hover:text-black hover:bg-black/5 transition-colors text-neutral-400 text-sm ${className}`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl hover:text-foreground hover:bg-foreground/5 transition-colors text-neutral-400 text-sm ${className}`}
         >
             {icon}
             {label}
@@ -224,7 +293,7 @@ function MobileNavLink({ href, label, onClick, isPrimary = false }: { href: stri
             onClick={onClick}
             className={`block w-full px-4 py-3 rounded-xl text-center font-medium transition-all ${isPrimary
                 ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
-                : "text-neutral-400 hover:text-black hover:bg-black/5"
+                : "text-neutral-400 hover:text-foreground hover:bg-foreground/5"
                 }`}
         >
             {label}

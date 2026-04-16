@@ -25,13 +25,14 @@ export default function CardEnrolled({ course }: EnrolledCourseCardProps) {
 
     return (
         <Link href={`/courses/${course._id}/player`} className="group h-full">
-            <div className="bg-white rounded-3xl border border-neutral-100 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-500 overflow-hidden flex flex-col h-full group-hover:-translate-y-1">
+            <div className="bg-card rounded-3xl border border-border shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 overflow-hidden flex flex-col h-full group-hover:-translate-y-1">
                 {/* Image Section */}
                 <div className="relative aspect-video overflow-hidden">
                     <Image
                         src={imgSrc}
                         alt={course.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={() => {
                             setImgSrc("https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&q=80&w=800");
@@ -47,20 +48,20 @@ export default function CardEnrolled({ course }: EnrolledCourseCardProps) {
                 {/* Content Section */}
                 <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center gap-2 mb-3">
-                        <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest bg-indigo-50 px-2 py-1 rounded-md">{t('common.inprogress')}</span>
+                        <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-1 rounded-md">{t('common.inprogress')}</span>
                     </div>
 
-                    <h4 className="text-xl font-black text-neutral-900 mb-6 line-clamp-2 leading-tight group-hover:text-indigo-600 transition-colors">
+                    <h4 className="text-xl font-black text-foreground mb-6 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                         {course.title}
                     </h4>
 
-                    <div className="mt-auto pt-6 border-t border-neutral-50 flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-neutral-500">
-                            <PlayCircle className="w-4 h-4 text-indigo-600" />
+                    <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <PlayCircle className="w-4 h-4 text-primary" />
                             <span className="text-xs font-bold">{lessonsCount} {t('common.videos')}</span>
                         </div>
 
-                        <div className="flex items-center gap-2 text-sm font-black text-indigo-600 group-hover:gap-3 transition-all">
+                        <div className="flex items-center gap-2 text-sm font-black text-primary group-hover:gap-3 transition-all">
                             {t('common.continue')}
                             <ArrowRight className="w-4 h-4" />
                         </div>

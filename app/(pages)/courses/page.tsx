@@ -76,20 +76,20 @@ export default function Courses() {
     });
 
     return (
-        <main className="min-h-screen pt-24 pb-20 bg-neutral-50">
+        <main className="min-h-screen pt-24 pb-20 bg-background">
             {/* Hero Section */}
             <section className="relative transition-all pt-12 pb-16 overflow-hidden">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 z-0 opacity-10">
                     <div className="absolute inset-0 bg-[url('/courses/hero-bg.png')] bg-cover bg-center" />
-                    <div className="absolute inset-0 bg-linear-to-b from-transparent to-neutral-50" />
+                    <div className="absolute inset-0 bg-linear-to-b from-transparent to-background" />
                 </div>
 
                 <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight text-neutral-900">
+                    <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight text-foreground">
                         {t('courses.hero.title').split(' ').slice(0, 2).join(' ')} <span className="bg-clip-text text-transparent bg-linear-to-r from-indigo-600 to-purple-600">{t('courses.hero.title').split(' ').slice(2).join(' ')}</span>
                     </h1>
-                    <p className="max-w-2xl mx-auto text-lg text-neutral-600 mb-10 leading-relaxed">
+                    <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-10 leading-relaxed">
                         {t('courses.hero.subtitle')}
                     </p>
 
@@ -101,11 +101,11 @@ export default function Courses() {
                         <input
                             type="text"
                             placeholder={t('courses.search.placeholder')}
-                            className="w-full bg-white ps-14 pe-36 py-5 rounded-2xl shadow-xl shadow-neutral-200/50 border border-neutral-200 outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-lg font-medium"
+                            className="w-full bg-background ps-14 pe-36 py-5 rounded-2xl shadow-xl shadow-border/50 border border-border outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-lg font-medium"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button className="absolute end-3 top-3 bottom-3 px-6 rounded-xl bg-neutral-900 text-white font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
+                        <button className="absolute end-3 top-3 bottom-3 px-6 rounded-xl bg-primary text-primary-foreground font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20">
                             {t('courses.search.button')}
                         </button>
                     </div>
@@ -134,12 +134,12 @@ export default function Courses() {
                         })}
                     </div>
                 ) : (
-                    <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-neutral-300">
-                        <div className="w-20 h-20 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Search className="w-8 h-8 text-neutral-400" />
+                    <div className="text-center py-20 bg-background rounded-3xl border border-dashed border-border">
+                        <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Search className="w-8 h-8 text-muted-foreground" />
                         </div>
-                        <h3 className="text-2xl font-bold text-neutral-800 mb-2">{t('courses.notfound.title')}</h3>
-                        <p className="text-neutral-500">{t('courses.notfound.subtitle')}</p>
+                        <h3 className="text-2xl font-bold text-foreground mb-2">{t('courses.notfound.title')}</h3>
+                        <p className="text-muted-foreground">{t('courses.notfound.subtitle')}</p>
                         <button
                             onClick={() => setSearchQuery("")}
                             className="mt-6 text-primary font-bold underline"

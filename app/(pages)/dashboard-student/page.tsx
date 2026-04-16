@@ -95,7 +95,7 @@ export default function StudentDashboard() {
     }, [token]);
 
     return (
-        <main className="min-h-screen pt-32 pb-20 bg-neutral-50/50">
+        <main className="min-h-screen pt-32 pb-20 bg-background">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Main Content Areas */}
@@ -103,8 +103,8 @@ export default function StudentDashboard() {
                         <section className="mb-12">
                             <div className="flex items-center justify-between mb-8">
                                 <div>
-                                    <h2 className="text-2xl font-black text-neutral-900 tracking-tight">{t('dashboard.enrolled')}</h2>
-                                    <p className="text-sm font-medium text-neutral-500 mt-1">
+                                    <h2 className="text-2xl font-black text-foreground tracking-tight">{t('dashboard.enrolled')}</h2>
+                                    <p className="text-sm font-medium text-muted-foreground mt-1">
                                         {enrolledCourses.length > 0
                                             ? t('dashboard.progress').replace('{count}', enrolledCourses.length.toString())
                                             : t('dashboard.noenrolled')}
@@ -118,12 +118,12 @@ export default function StudentDashboard() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {isLoading ? (
                                     <div className="flex items-center gap-3 p-8">
-                                        <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-                                        <p className="font-bold text-neutral-600">{t('dashboard.loading')}</p>
+                                        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                                        <p className="font-bold text-muted-foreground">{t('dashboard.loading')}</p>
                                     </div>
                                 ) : enrolledCourses.length === 0 ? (
-                                    <div className="col-span-full py-12 text-center bg-white rounded-3xl border border-dashed border-neutral-200">
-                                        <p className="text-neutral-500 font-bold">{t('dashboard.nocourses')}</p>
+                                    <div className="col-span-full py-12 text-center bg-card rounded-3xl border border-dashed border-border">
+                                        <p className="text-muted-foreground font-bold">{t('dashboard.nocourses')}</p>
                                     </div>
                                 ) : (
                                     enrolledCourses.map(course => (
@@ -138,34 +138,34 @@ export default function StudentDashboard() {
                     <aside className="w-full lg:w-80">
                         <div className="sticky top-32 space-y-6">
                             {/* Profile Card */}
-                            <div className="bg-white rounded-3xl p-8 border border-neutral-100 shadow-sm">
+                            <div className="bg-card rounded-3xl p-8 border border-border shadow-sm">
                                 <div className="space-y-1 mb-8">
-                                    <p className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em]">
+                                    <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">
                                         {new Date().getHours() < 12 ? t('dashboard.greeting.morning') : new Date().getHours() < 18 ? t('dashboard.greeting.afternoon') : t('dashboard.greeting.evening')}
                                     </p>
-                                    <h3 className="text-2xl font-black text-neutral-900">{user?.name || 'Student'}</h3>
-                                    <p className="text-sm font-medium text-neutral-500">{user?.email}</p>
+                                    <h3 className="text-2xl font-black text-foreground">{user?.name || 'Student'}</h3>
+                                    <p className="text-sm font-medium text-muted-foreground">{user?.email}</p>
                                 </div>
 
                                 <div className="space-y-6">
-                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                    <div className="p-4 bg-secondary rounded-2xl border border-border">
                                         <div className="flex justify-between items-end mb-2">
-                                            <span className="text-xs font-black text-neutral-400 uppercase tracking-wider">Weekly Goal</span>
-                                            <span className="text-lg font-black text-indigo-600">65%</span>
+                                            <span className="text-xs font-black text-muted-foreground uppercase tracking-wider">Weekly Goal</span>
+                                            <span className="text-lg font-black text-primary">65%</span>
                                         </div>
-                                        <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
-                                            <div className="h-full bg-indigo-600 w-[65%] rounded-full" />
+                                        <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                                            <div className="h-full bg-primary w-[65%] rounded-full" />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-3">
-                                        <div className="p-3 bg-indigo-50 rounded-2xl border border-indigo-100 text-center">
-                                            <p className="text-xl font-black text-indigo-600">{enrolledCourses.length}</p>
-                                            <p className="text-[10px] font-black text-indigo-400 uppercase">Courses</p>
+                                        <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20 text-center">
+                                            <p className="text-xl font-black text-primary">{enrolledCourses.length}</p>
+                                            <p className="text-[10px] font-black text-primary/70 uppercase">Courses</p>
                                         </div>
-                                        <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-100 text-center">
-                                            <p className="text-xl font-black text-emerald-600">4</p>
-                                            <p className="text-[10px] font-black text-emerald-400 uppercase">Certificates</p>
+                                        <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-center">
+                                            <p className="text-xl font-black text-emerald-600 dark:text-emerald-400">4</p>
+                                            <p className="text-[10px] font-black text-emerald-500/70 uppercase">Certificates</p>
                                         </div>
                                     </div>
                                 </div>

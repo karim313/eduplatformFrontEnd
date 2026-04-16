@@ -74,7 +74,7 @@ export default function Register() {
     }
 
     return (
-        <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col font-sans relative overflow-hidden">
+        <div className="min-h-screen bg-background flex flex-col font-sans relative overflow-hidden">
             {/* Subtle Pattern Overlay */}
             <div
                 className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -86,10 +86,10 @@ export default function Register() {
 
             {/* Top App Bar */}
             <div className="relative z-10 flex items-center bg-transparent p-4 justify-between max-w-7xl mx-auto w-full pt-28">
-                <Link href="/" className="text-neutral-900 dark:text-white flex size-12 shrink-0 items-center justify-center cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-full transition-colors">
+                <Link href="/" className="text-foreground flex size-12 shrink-0 items-center justify-center cursor-pointer hover:bg-secondary rounded-full transition-colors">
                     <ArrowLeft className="w-5 h-5" />
                 </Link>
-                <h2 className="text-neutral-900 dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-12">
+                <h2 className="text-foreground text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-12">
                     Student Portal
                 </h2>
             </div>
@@ -99,35 +99,35 @@ export default function Register() {
                 <div className="w-full max-w-[440px]">
 
                     {/* Tab Selector */}
-                    <div className="flex bg-neutral-200 dark:bg-neutral-800 p-1 rounded-2xl mb-8">
+                    <div className="flex bg-secondary p-1 rounded-2xl mb-8">
                         <Link
                             href="/signin"
-                            className="flex-1 py-3 text-center text-sm font-bold rounded-xl text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-all"
+                            className="flex-1 py-3 text-center text-sm font-bold rounded-xl text-muted-foreground hover:text-foreground transition-all"
                         >
                             Sign In
                         </Link>
                         <Link
                             href="/register"
-                            className="flex-1 py-3 text-center text-sm font-bold rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-sm transition-all"
+                            className="flex-1 py-3 text-center text-sm font-bold rounded-xl bg-background text-foreground shadow-sm transition-all"
                         >
                             Register
                         </Link>
                     </div>
 
                     <div className="flex flex-col items-center mb-8">
-                        <div className="bg-primary text-white p-4 rounded-2xl mb-6 shadow-xl shadow-primary/20">
+                        <div className="bg-primary text-primary-foreground p-4 rounded-2xl mb-6 shadow-xl shadow-primary/20">
                             <School className="w-8 h-8" />
                         </div>
-                        <h1 className="text-neutral-900 dark:text-white tracking-tight text-3xl font-black leading-tight text-center">
+                        <h1 className="text-foreground tracking-tight text-3xl font-black leading-tight text-center">
                             Create Account
                         </h1>
-                        <p className="text-neutral-500 dark:text-neutral-400 text-base font-medium pt-2 text-center">
+                        <p className="text-muted-foreground text-base font-medium pt-2 text-center">
                             Join our community of students and start learning today
                         </p>
                     </div>
 
                     {/* Registration Form Card */}
-                    <div className="bg-white dark:bg-neutral-900 rounded-[2rem] shadow-2xl shadow-neutral-200 dark:shadow-none border border-neutral-200 dark:border-neutral-800 p-8">
+                    <div className="bg-card rounded-[2rem] shadow-2xl shadow-border/50 border border-border p-8">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
 
@@ -145,9 +145,9 @@ export default function Register() {
                                                     <Input
                                                         placeholder="John Doe"
                                                         {...field}
-                                                        className="h-14 pl-12 pr-4 rounded-xl bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white focus:ring-primary/20 focus:border-primary transition-all placeholder:text-neutral-400"
+                                                        className="h-14 pl-12 pr-4 rounded-xl bg-secondary/50 border border-border text-foreground focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground"
                                                     />
-                                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+                                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                                 </div>
                                             </FormControl>
                                             <FormMessage className="text-xs font-bold pl-1" />
@@ -170,9 +170,9 @@ export default function Register() {
                                                         type="email"
                                                         placeholder="name@example.com"
                                                         {...field}
-                                                        className="h-14 pl-12 pr-4 rounded-xl bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white focus:ring-primary/20 focus:border-primary transition-all placeholder:text-neutral-400"
+                                                        className="h-14 pl-12 pr-4 rounded-xl bg-secondary/50 border border-border text-foreground focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground"
                                                     />
-                                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+                                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                                 </div>
                                             </FormControl>
                                             <FormMessage className="text-xs font-bold pl-1" />
@@ -195,13 +195,13 @@ export default function Register() {
                                                         type={showPassword ? "text" : "password"}
                                                         placeholder="••••••••"
                                                         {...field}
-                                                        className="h-14 pl-12 pr-12 rounded-xl bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white focus:ring-primary/20 focus:border-primary transition-all placeholder:text-neutral-400"
+                                                        className="h-14 pl-12 pr-12 rounded-xl bg-secondary/50 border border-border text-foreground focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground"
                                                     />
-                                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+                                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                                     <button
                                                         type="button"
                                                         onClick={() => setShowPassword(!showPassword)}
-                                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
+                                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                                                     >
                                                         <Eye className="w-5 h-5" />
                                                     </button>
@@ -289,18 +289,18 @@ export default function Register() {
 
                     {/* Social Login Divider */}
                     <div className="flex items-center my-10 px-4">
-                        <div className="grow h-px bg-neutral-200 dark:bg-neutral-800"></div>
-                        <span className="px-4 text-[10px] text-neutral-400 font-black uppercase tracking-widest bg-neutral-50/50 dark:bg-neutral-950/50 py-1 rounded-full">Or sign up with</span>
-                        <div className="grow h-px bg-neutral-200 dark:bg-neutral-800"></div>
+                        <div className="grow h-px bg-border"></div>
+                        <span className="px-4 text-[10px] text-muted-foreground font-black uppercase tracking-widest bg-background/50 py-1 rounded-full">Or sign up with</span>
+                        <div className="grow h-px bg-border"></div>
                     </div>
 
                     {/* Social Register Options */}
                     <div className="grid grid-cols-2 gap-4">
-                        <Button variant="outline" className="h-14 rounded-xl font-bold bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:shadow-md transition-all">
+                        <Button variant="outline" className="h-14 rounded-xl font-bold bg-background border-border hover:shadow-md transition-all">
                             <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
                             <span>Google</span>
                         </Button>
-                        <Button variant="outline" className="h-14 rounded-xl font-bold bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:shadow-md transition-all">
+                        <Button variant="outline" className="h-14 rounded-xl font-bold bg-background border-border hover:shadow-md transition-all">
                             <Github className="w-5 h-5" />
                             <span>GitHub</span>
                         </Button>

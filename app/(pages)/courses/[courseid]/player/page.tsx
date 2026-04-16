@@ -24,7 +24,7 @@ export default function CoursePlayer() {
     const router = useRouter();
 
     const [course, setCourse] = useState<CourseidI | null>(null);
-    const [activeVideo, setActiveVideo] = useState<{ url: string, title: string, id: string } | null>(null);
+    const [activeVideo, setActiveVideo] = useState<{ url: string, title: string, id: string, type?: string } | null>(null);
     const [expandedSections, setExpandedSections] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -53,7 +53,8 @@ export default function CoursePlayer() {
                         setActiveVideo({
                             url: firstVideo.videoUrl,
                             title: firstVideo.title,
-                            id: firstVideo._id
+                            id: firstVideo._id,
+                            type: firstVideo.videoType
                         });
                         setExpandedSections([courseData.playlists[0]._id]);
                     } else if (courseData.videos?.length > 0) {
@@ -61,7 +62,8 @@ export default function CoursePlayer() {
                         setActiveVideo({
                             url: firstVideo.videoUrl,
                             title: firstVideo.title,
-                            id: firstVideo._id
+                            id: firstVideo._id,
+                            type: firstVideo.videoType
                         });
                         setExpandedSections(['general-videos']);
                     }
@@ -103,12 +105,12 @@ export default function CoursePlayer() {
     if (!course || !activeVideo) return null;
 
     return (
-        <div className="bg-neutral-950 text-white flex flex-col lg:flex-row lg:h-[calc(100vh-73px)] lg:overflow-hidden">
+        <div className="bg-background text-foreground flex flex-col lg:flex-row lg:h-[calc(100vh-73px)] lg:overflow-hidden">
             {/* Main Video Area */}
             <div className="flex-1 flex flex-col h-full lg:overflow-y-auto">
                 {/* Player Header */}
-                <div className="p-4 bg-neutral-900/50 backdrop-blur-md border-b border-neutral-800 flex items-center justify-between">
-                    <Link href="/courses" className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors">
+                <div className="p-4 bg-secondary/50 backdrop-blur-md border-b border-border flex items-center justify-between">
+                    <Link href="/courses" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                         <span className="text-sm font-bold hidden sm:inline">Back to Courses</span>
                     </Link>
@@ -117,8 +119,8 @@ export default function CoursePlayer() {
                 </div>
 
                 {/* Video Playback Container */}
-                <div className="relative aspect-video bg-black shadow-2xl">
-                    {getYouTubeId(activeVideo.url) ? (
+                <div className="relative aspect-video bg-black shadow-2xl overflow-hidden rounded-md">
+                    {activeVideo.type === 'youtube' || getYouTubeId(activeVideo.url) ? (
                         <iframe
                             className="w-full h-full"
                             src={`https://www.youtube.com/embed/${getYouTubeId(activeVideo.url)}?autoplay=1&rel=0`}
@@ -126,22 +128,35 @@ export default function CoursePlayer() {
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                         ></iframe>
+                    ) : (activeVideo.type === 'uploaded' || activeVideo.url.includes('cloudinary')) ? (
+                        <video 
+                            className="w-full h-full object-contain"
+                            src={activeVideo.url}
+                            controls
+                            autoPlay
+                            controlsList="nodownload"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-neutral-500">
-                            Video player format not supported
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-secondary">
+                            <div className="text-center">
+                                <PlayCircle className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                                <p className="text-sm font-medium">Video player format not supported</p>
+                            </div>
                         </div>
                     )}
                 </div>
 
                 {/* Video Info */}
                 <div className="p-8 max-w-4xl mx-auto w-full">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-neutral-800 pb-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-border pb-8">
                         <div>
                             <span className="text-xs font-black text-indigo-500 uppercase tracking-widest mb-2 block">Currently Playing</span>
                             <h2 className="text-2xl font-black">{activeVideo.title}</h2>
                         </div>
                         <div className="flex gap-3">
-                            <button className="flex items-center gap-2 px-6 py-3 bg-neutral-800 rounded-xl font-bold text-sm hover:bg-neutral-700 transition-all">
+                            <button className="flex items-center gap-2 px-6 py-3 bg-secondary rounded-xl font-bold text-sm hover:bg-secondary/80 transition-all">
                                 <FileText className="w-4 h-4" /> Resources
                             </button>
                             <button className="flex items-center gap-2 px-6 py-3 bg-indigo-600 rounded-xl font-bold text-sm hover:bg-indigo-700 transition-all">
@@ -151,8 +166,8 @@ export default function CoursePlayer() {
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-lg font-bold">About this lesson</h3>
-                        <p className="text-neutral-400 leading-relaxed">
+                        <h3 className="text-lg font-bold text-foreground">About this lesson</h3>
+                        <p className="text-muted-foreground leading-relaxed">
                             {course.description}
                         </p>
                     </div>
@@ -160,49 +175,49 @@ export default function CoursePlayer() {
             </div>
 
             {/* Sidebar Playlist */}
-            <div className="w-full lg:w-[400px] border-t lg:border-t-0 lg:border-l border-neutral-800 bg-neutral-900 flex flex-col lg:h-full lg:overflow-hidden">
-                <div className="p-6 border-b border-neutral-800 bg-neutral-900/50">
-                    <h2 className="text-lg font-black flex items-center gap-3">
-                        <Layout className="w-5 h-5 text-indigo-500" />
+            <div className="w-full lg:w-[400px] border-t lg:border-t-0 lg:border-l border-border bg-card flex flex-col lg:h-full lg:overflow-hidden">
+                <div className="p-6 border-b border-border bg-secondary/50">
+                    <h2 className="text-lg font-black flex items-center gap-3 text-foreground">
+                        <Layout className="w-5 h-5 text-primary" />
                         Course Curriculum
                     </h2>
-                    <div className="mt-2 text-xs font-bold text-neutral-500 flex items-center gap-3">
+                    <div className="mt-2 text-xs font-bold text-muted-foreground flex items-center gap-3">
                         <span>{(course.playlists?.length || 0) + (course.videos?.length > 0 ? 1 : 0)} Sections</span>
                         <div className="w-1 h-1 bg-neutral-700 rounded-full" />
                         <span>{(course.playlists?.reduce((acc, p) => acc + p.videos.length, 0) || 0) + (course.videos?.length || 0)} Lessons</span>
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-800">
+                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-border">
                     {course.playlists.map((playlist, pIdx) => (
-                        <div key={playlist._id} className="border-b border-neutral-800/50">
+                        <div key={playlist._id} className="border-b border-border">
                             <button
                                 onClick={() => toggleSection(playlist._id)}
-                                className={`w-full px-6 py-5 flex items-center justify-between hover:bg-neutral-800/50 transition-colors ${expandedSections.includes(playlist._id) ? 'bg-neutral-800/30' : ''}`}
+                                className={`w-full px-6 py-5 flex items-center justify-between hover:bg-secondary transition-colors ${expandedSections.includes(playlist._id) ? 'bg-secondary' : ''}`}
                             >
                                 <div className="flex items-center gap-3 text-left">
-                                    <span className="text-xs font-black text-neutral-600">{String(pIdx + 1).padStart(2, '0')}</span>
-                                    <span className="text-sm font-bold">{playlist.title}</span>
+                                    <span className="text-xs font-black text-muted-foreground/50">{String(pIdx + 1).padStart(2, '0')}</span>
+                                    <span className="text-sm font-bold text-foreground">{playlist.title}</span>
                                 </div>
-                                {expandedSections.includes(playlist._id) ? <ChevronUp className="w-4 h-4 text-neutral-500" /> : <ChevronDown className="w-4 h-4 text-neutral-500" />}
+                                {expandedSections.includes(playlist._id) ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                             </button>
 
                             {expandedSections.includes(playlist._id) && (
-                                <div className="bg-neutral-950/30">
+                                <div className="bg-secondary/20">
                                     {playlist.videos.map((video, vIdx) => (
                                         <button
                                             key={video._id}
-                                            onClick={() => setActiveVideo({ url: video.videoUrl, title: video.title, id: video._id })}
-                                            className={`w-full px-8 py-4 flex items-center gap-4 group hover:bg-neutral-800/50 transition-all border-l-4 ${activeVideo.id === video._id ? 'border-primary bg-primary/5' : 'border-transparent'}`}
+                                            onClick={() => setActiveVideo({ url: video.videoUrl, title: video.title, id: video._id, type: video.videoType })}
+                                            className={`w-full px-8 py-4 flex items-center gap-4 group hover:bg-secondary/50 transition-all border-l-4 ${activeVideo.id === video._id ? 'border-primary bg-primary/10' : 'border-transparent'}`}
                                         >
-                                            <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${activeVideo.id === video._id ? 'bg-primary text-white' : 'bg-neutral-800 text-neutral-500 group-hover:bg-neutral-700'}`}>
+                                            <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${activeVideo.id === video._id ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground group-hover:bg-secondary/80'}`}>
                                                 {activeVideo.id === video._id ? <Play className="w-3.5 h-3.5 fill-current" /> : <PlayCircle className="w-4 h-4" />}
                                             </div>
                                             <div className="flex flex-col items-start min-w-0 flex-1">
-                                                <span className={`text-sm font-bold block w-full leading-tight ${activeVideo.id === video._id ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-200'}`}>
+                                                <span className={`text-sm font-bold block w-full leading-tight ${activeVideo.id === video._id ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'}`}>
                                                     {video.title}
                                                 </span>
-                                                <span className="text-[10px] font-black uppercase text-neutral-600 tracking-wider mt-1">
+                                                <span className="text-[10px] font-black uppercase text-muted-foreground/60 tracking-wider mt-1">
                                                     {Math.floor(video.duration / 60)}:{(video.duration % 60).toString().padStart(2, '0')}
                                                 </span>
                                             </div>
@@ -235,7 +250,7 @@ export default function CoursePlayer() {
                                     {course.videos.map((video, vIdx) => (
                                         <button
                                             key={video._id}
-                                            onClick={() => setActiveVideo({ url: video.videoUrl, title: video.title, id: video._id })}
+                                            onClick={() => setActiveVideo({ url: video.videoUrl, title: video.title, id: video._id, type: video.videoType })}
                                             className={`w-full px-8 py-4 flex items-center gap-4 group hover:bg-neutral-800/50 transition-all border-l-4 ${activeVideo.id === video._id ? 'border-primary bg-primary/5' : 'border-transparent'}`}
                                         >
                                             <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${activeVideo.id === video._id ? 'bg-primary text-white' : 'bg-neutral-800 text-neutral-500 group-hover:bg-neutral-700'}`}>

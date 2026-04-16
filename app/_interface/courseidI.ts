@@ -2,6 +2,7 @@ interface Video {
     title: string;
     videoUrl: string;
     duration: number;
+    videoType?: 'youtube' | 'uploaded';
     _id: string;
 }
 

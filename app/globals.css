@@ -143,6 +143,24 @@
   }
 }
 
+/* Arabic typography tuning */
+html[lang="ar"] body {
+  font-family: var(--font-arabic), var(--font-geist-sans), sans-serif;
+  letter-spacing: 0;
+  word-spacing: 0.04em;
+  text-rendering: optimizeLegibility;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6 {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
 /* Premium Thin Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -165,4 +183,103 @@
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #e5e7eb transparent;
+}
+
+@keyframes riseFall {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.intro-title {
+  display: inline-flex;
+  gap: 0.08em;
+}
+
+.intro-title span {
+  display: inline-block;
+  animation: riseFall 1.5s ease-in-out infinite both;
+}
+
+body.intro-active nav[data-main-navbar="true"] {
+  opacity: 0;
+  transform: translateY(-14px);
+  pointer-events: none;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.page-enter main {
+  animation: pageEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  filter: blur(4px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-item.reveal-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-enter main {
+    animation: none;
+  }
+
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button,
+  [role="button"],
+  a {
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease,
+      opacity 0.22s ease;
+  }
+
+  button:active,
+  [role="button"]:active {
+    transform: translateY(1px) scale(0.985);
+  }
+
+  .card,
+  .feature-card {
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card:hover,
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+  }
 }
