@@ -48,7 +48,7 @@ export default function Register() {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            const response = await fetch('https://educational-platform-api2-production-2097.up.railway.app/api/auth/register', {
+            const response = await fetch('https://educational-platform-api2-production-c85a.up.railway.app/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
